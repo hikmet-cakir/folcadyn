@@ -15,4 +15,12 @@
 
     <name>Folcadyn Core</name>
     <description>Core domain and contracts for the Folcadyn Saga framework.</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
