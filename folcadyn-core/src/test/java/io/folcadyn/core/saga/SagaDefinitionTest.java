@@ -76,4 +76,12 @@ class SagaDefinitionTest {
 
         assertThrows(IllegalArgumentException.class, () -> new SagaDefinition("OrderSaga", steps));
     }
+
+    @Test
+    void constructorShouldRejectDuplicateStepOrder() {
+        SagaStepDefinition firstStep = new SagaStepDefinition("reserveInventory", 0);
+        SagaStepDefinition secondStep = new SagaStepDefinition("capturePayment", 0);
+
+        assertThrows(IllegalArgumentException.class, () -> new SagaDefinition("OrderSaga", List.of(firstStep, secondStep)));
+    }
 }
