@@ -23,7 +23,7 @@ public record SagaDefinition(String name, List<SagaStepDefinition> steps) {
      * @param name the saga definition name
      * @param steps the saga step definitions
      * @throws IllegalArgumentException when the name is {@code null} or blank, or steps is {@code null}, empty,
-     *                                  contains {@code null}, or contains duplicate order values
+     *                                  contains {@code null}, duplicate order values, or duplicate names
      */
     public SagaDefinition {
         if (name == null || name.isBlank()) {
@@ -41,6 +41,13 @@ public record SagaDefinition(String name, List<SagaStepDefinition> steps) {
                 .count();
         if (distinctOrderCount != steps.size()) {
             throw new IllegalArgumentException("Saga definition steps must not contain duplicate order values.");
+        }
+        long distinctNameCount = steps.stream()
+                .map(SagaStepDefinition::name)
+                .distinct()
+                .count();
+        if (distinctNameCount != steps.size()) {
+            throw new IllegalArgumentException("Saga definition steps must not contain duplicate names.");
         }
         steps = steps.stream()
                 .sorted(Comparator.comparingInt(SagaStepDefinition::order))
